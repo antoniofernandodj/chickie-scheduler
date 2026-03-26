@@ -5,6 +5,7 @@ use chrono::Utc;
 use cron::Schedule;
 use serde::Deserialize;
 use std::collections::HashMap;
+use std::env;
 use std::str::FromStr; // ← Necessário para Schedule::from_str
 use futures::future::join_all; // ← Para aguardar todas as tasks
 use std::sync::Arc;
@@ -26,6 +27,21 @@ struct JobSchedule {
 #[derive(Debug, Deserialize)]
 struct Config {
     jobs: Vec<JobSchedule>,
+}
+
+fn get_config_path() -> String {
+    // 1. Prioridade máxima: variável de ambiente CONFIG_PATH
+    if let Ok(path) = env::var("CONFIG_PATH") {
+        return path;
+    }
+    
+    // 2. Se estiver em Docker, usa o path padrão do container
+    if std::path::Path::new("/app/config.toml").exists() {
+        return "/app/config.toml".to_string();
+    }
+    
+    // 3. Fallback para desenvolvimento local
+    "config.toml".to_string()
 }
 
 fn load_config(path: &str) -> Result<Config> {
@@ -89,11 +105,14 @@ async fn main() -> Result<()> {
 
     info!("🔧 Rust Cron Scheduler iniciando...");
 
-    let config_path = "config.toml";
-    let config = match load_config(config_path) {
+    let config_path = get_config_path();
+    info!("🔧 Chickie Scheduler iniciando...");
+    info!("📄 Carregando config de: {}", config_path);
+
+    let config = match load_config(&config_path) {
         Ok(c) => c,
         Err(e) => {
-            error!("Falha ao carregar config: {}", e);
+            error!("Falha crítica ao carregar config '{}': {}", config_path, e);
             return Ok(());
         }
     };
