@@ -18,12 +18,12 @@ impl CronJob for CleanupJob {
         // Sua lógica de limpeza aqui
         // Ex: deletar arquivos antigos, limpar cache, etc.
         
-        let path = "/app/logs";
-        if let Ok(entries) = fs::read_dir(path) {
-            for entry in entries.flatten() {
-                info!("Removendo: {:?}", entry.path());
-            }
-        }
+        // let path = "/app/logs";
+        // if let Ok(entries) = fs::read_dir(path) {
+        //     for entry in entries.flatten() {
+        //         info!("Removendo: {:?}", entry.path());
+        //     }
+        // }
         
         info!("✅ Limpeza concluída!");
         Ok(())
