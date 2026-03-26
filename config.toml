@@ -1,0 +1,20 @@
+[[jobs]]
+name = "backup_job"
+schedule = "0 0 3 * * *"  # Todo dia às 03:00 UTC
+enabled = true
+
+[[jobs]]
+name = "cleanup_job"
+schedule = "0 0 * * * *"  # A cada hora
+enabled = true
+
+[[jobs]]
+name = "health_check_job"
+schedule = "0 */5 * * * *"  # A cada 5 minutos
+enabled = true
+
+# Para desabilitar uma job, mude enabled = false
+# [[jobs]]
+# name = "backup_job"
+# schedule = "0 0 3 * * *"
+# enabled = false

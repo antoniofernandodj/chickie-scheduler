@@ -1,0 +1,16 @@
+[package]
+name = "chickie-scheduler"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+cron = "0.12"
+serde = { version = "1", features = ["derive"] }
+toml = "0.8"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+chrono = "0.4"
+anyhow = "1"
+async-trait = "0.1"
+futures = "0.3"  # ← Adicione esta linha para o join_all
