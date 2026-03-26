@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY --from=builder /app/target/release/rust-cron /app/rust-cron
+COPY --from=builder /app/target/release/chickie-scheduler /app/chickie-scheduler
 
 RUN useradd -m -u 1000 cronuser
 USER cronuser
